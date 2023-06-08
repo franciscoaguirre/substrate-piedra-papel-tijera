@@ -262,8 +262,7 @@ impl pallet_sudo::Config for Runtime {
 	type Call = Call;
 }
 
-/// Configure the pallet-template in pallets/template.
-impl pallet_template::Config for Runtime {
+impl pallet_piedra_papel_tijera::Config for Runtime {
 	type Event = Event;
 }
 
@@ -282,8 +281,7 @@ construct_runtime!(
 		Balances: pallet_balances,
 		TransactionPayment: pallet_transaction_payment,
 		Sudo: pallet_sudo,
-		// Include the custom logic from the pallet-template in the runtime.
-		TemplateModule: pallet_template,
+		PiedraPapelTijera: pallet_piedra_papel_tijera,
 	}
 );
 

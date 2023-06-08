@@ -1,8 +1,8 @@
 [package]
-name = "pallet-template"
+name = "pallet-piedra-papel-tijera"
 version = "4.0.0-dev"
-description = "FRAME pallet template for defining custom runtime logic."
-authors = ["Substrate DevHub <https://github.com/substrate-developer-hub>"]
+description = "Pallet para jugar al piedra, papel o tijera en la blockchain"
+authors = ["franciscoaguirreperez@gmail.com"]
 homepage = "https://substrate.io/"
 edition = "2021"
 license = "Unlicense"
