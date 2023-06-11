@@ -33,7 +33,7 @@ pub use frame_support::{
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 		IdentityFee, Weight,
 	},
-	StorageValue,
+	PalletId, StorageValue,
 };
 pub use frame_system::Call as SystemCall;
 pub use pallet_balances::Call as BalancesCall;
@@ -44,7 +44,7 @@ pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
 
 /// Import the template pallet.
-pub use pallet_template;
+pub use pallet_piedra_papel_tijera;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -101,7 +101,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	//   `spec_version`, and `authoring_version` are the same between Wasm and native.
 	// This value is set to 100 to notify Polkadot-JS App (https://polkadot.js.org/apps) to use
 	//   the compatible custom types.
-	spec_version: 100,
+	spec_version: 102,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
@@ -234,6 +234,10 @@ impl pallet_timestamp::Config for Runtime {
 	type WeightInfo = ();
 }
 
+parameter_types! {
+	pub const ExistentialDeposit: Balance = 1000;
+}
+
 impl pallet_balances::Config for Runtime {
 	type MaxLocks = ConstU32<50>;
 	type MaxReserves = ();
@@ -243,7 +247,7 @@ impl pallet_balances::Config for Runtime {
 	/// The ubiquitous event type.
 	type Event = Event;
 	type DustRemoval = ();
-	type ExistentialDeposit = ConstU128<500>;
+	type ExistentialDeposit = ExistentialDeposit;
 	type AccountStore = System;
 	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
@@ -262,8 +266,16 @@ impl pallet_sudo::Config for Runtime {
 	type Call = Call;
 }
 
+parameter_types! {
+	pub const TokensParaJugar: Balance = 10_000;
+	pub const PiedraPapelTijeraPalletId: PalletId = PalletId(*b"py/pptij");
+}
+
 impl pallet_piedra_papel_tijera::Config for Runtime {
 	type Event = Event;
+	type Currency = Balances;
+	type PalletId = PiedraPapelTijeraPalletId;
+	type TokensParaJugar = TokensParaJugar;
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
@@ -326,7 +338,7 @@ mod benches {
 		[frame_system, SystemBench::<Runtime>]
 		[pallet_balances, Balances]
 		[pallet_timestamp, Timestamp]
-		[pallet_template, TemplateModule]
+		[pallet_piedra_papel_tijera, PiedraPapelTijera]
 	);
 }
 
